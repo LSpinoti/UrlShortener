@@ -1,12 +1,6 @@
-# Generate a short URL
-
-# Map it to a long URL
-
-# Short URL -> Long URL
 import hashlib
+import csv
 
-
-my_urls = {}
 urls = 1
 
 def genShort():
@@ -14,23 +8,37 @@ def genShort():
 
     key = hashlib.md5(str(urls).encode()).hexdigest()[:10]
 
-    my_urls[str(key)] = None
-
     urls += 1
     return "https://shopi.fy/" + str(key)
 
 def mapToLong(short, long):
     key = (short.split("/"))[-1]
 
-    my_urls[key] = long
+    # TODO: error check commas
+    # TODO: overwrite
+    f = open("urls.csv", "a")
+    writer = csv.writer(f)
+    writer.writerow([key, long])
+    f.close()
 
 def getLong(short):
     key = (short.split("/"))[-1]
 
-    if key in list(my_urls):
-        return my_urls[key]
-    else:
-        return None
+    f = open("urls.csv", "r")
+    reader = csv.reader(f)
+
+    out = None
+
+    for lines in reader:
+        if lines[0] == key:
+            out = lines[1]
+            break
+
+    f.close()
+    return out
+
+
+
 
 
 s = genShort()
