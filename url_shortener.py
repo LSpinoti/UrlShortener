@@ -48,3 +48,5 @@ assert(getLong(s) == "http://localhost")
 t = genShort()
 mapToLong(t, "http://shopify.com")
 assert(getLong(t) == "http://shopify.com")
+
+# My change
